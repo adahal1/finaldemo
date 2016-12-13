@@ -1,162 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js">
-</script>
-<script src="http://maps.googleapis.com/maps/api/js?libraries=geometry">
-</script>
-
-<script>
-var map;
-var myCenter=new google.maps.LatLng(39.728493, -121.837479);
-var lastDrop = null;
-var path=[];
-var markers=[];
-var lines=[];
-
-function initialize(){
-var mapProp = {
-  center:myCenter,
-  zoom:15,
-  mapTypeId:google.maps.MapTypeId.HYBRID
-  };
-
-  map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-
-  google.maps.event.addListener(map, 'click', function(event) {
-    path.push(event.latLng);
-    var d = google.maps.geometry.spherical.computeLength(path);
-    writeDistance(d);
-    markers.push(placeMarker(event.latLng));
-    lines.push(drawLine(event.latLng));
-  });
-
-  $("#reset").click(
-    function(){
-      markers.forEach(function(m){
-        m.setMap(null);
-      })
-      lines.forEach(function(l){
-        if (l != null){
-          l.setMap(null);
-        }
-      })
-      path = [];
-      lastDrop = null;
-      lines = [];
-      markers = [];
-      writeDistance(0);
-    }
-  );
-}
-
-function writeDistance(dist){
-  var miles = dist / 1609;
-  var newT = '<span>'+ miles.toFixed(1) + "</span>";
-  $("#box").empty().append(newT);
-}
-
-function placeMarker(location) {
-  return new google.maps.Marker({
-    position: location,
-    map: map,
-    animation: google.maps.Animation.BOUNCE, 
-  });
-  var infowindow = new google.maps.InfoWindow({
-    content: 'Latitude: ' + location.lat() + '<br>Longitude: ' + location.lng()
-  });
-  infowindow.close(map,marker);
-}
-
-    function drawLine(location){
-    if(lastDrop != null){
-      var pts = [
-      lastDrop,
-      location
-    ];
-      var poly = new google.maps.Polyline({
-        path: pts,
-        map: map,
-        geodesic: true,
-        strokeColor: '#FF0000',
-        strokeOpacity: 1.0,
-        strokeWeight: 2,
-      }); 
-    }
-    lastDrop = location;
-    return poly;
-  }
-
-google.maps.event.addDomListener(window, 'load', initialize);
-
-</script>
-<style>
-#googleMap{
-  height:100%;
-  width: 100%;
-  left:  0;
-  position: absolute;
-  top: 0;
-}
-#top{
-    height: 80px;
-    background-color: #CC6600;
-    z-index: 1;
-    position: absolute;
-    width: 100%;
-    top: 0;
-    left: 0;
-  }
-#box{
-  height:120px;
-  background-color: #FFFFFF;
-  opacity: 0.7;
-  z-index: 1;
-  position: absolute;
-  width: 11%;
-  top: 400px;
-  left: 0;
-  font-size: 100px;
-  color: green;
-  border: 1px solid #CCC;
-  border-radius: 20px;
-  cursor: hand;
-}
-#reset{
-  position: absolute;
-  top: 520px;
-  left: 29px;
-  background-color: #CC0000;
-  color: #000;
-  padding: 10px;
-  width: 90px;
-  height: 30px;
-  z-index: 1000;
-  opacity: 0.7;
-  border: 1px solid #CCC;
-  border-radius: 20px;
-  cursor: hand;
-}
-#reset span{
-  font-size: 27px;
-  font-weight: bolder;
-  font-family: Verdana;
-  display: block;
-}
-  h1{
-    color: #FFF;
-    font-family: Helvetica;
-    padding-left: 600px;
-  }
-</style>
+  <title>Skill Test</title>
 </head>
+<style>
+h1 {
+    text-align: center;
+    font-family: vivaldi, cursive;
+    color: red;
+    font-size: 45px;
+}
+h4 {
+    text-align: center;
+    font-family: Verdana, sans-serif;
+    color: red;
+    font-size: 45px;
+    font-weight: bolder;
+}
+h4 span {
+    color: #269900;
+}
+.nav-tab{
+  font-size: 90px;
+  text-align: center;
+}
 
+.navigation{
+  text-decoration: none;
+  color: #269900;
+}
+body{
+  background-color: black;
+
+}
+
+
+</style>
 <body>
-  <div id="top"><h1>Miles and Dist Calculator</h1></div>
-<div id="googleMap"></div>
-<div id="box"></div>
-<div id="reset"><span>Reset</span></div>
-
-
+  <h1> Calculate your distance!!! </h1>
+  <h4> To start the distance calculator press <span>START</span> to begin!! </h4>
+  <nav>
+  <div class="nav-tab">
+  <a class="navigation" href="map.html"> START </a>
+  </div>
+</nav>
 </body>
 </html>
